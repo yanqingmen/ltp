@@ -3,6 +3,8 @@ package edu.hit.ir.ltp.jni;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.List;
+
 
 /**
  * jni func for ltp
@@ -21,4 +23,29 @@ public class LtpJNI {
     }
 
 
+    /**
+     * create segmentor with lexicon
+     * @param path
+     * @param lexiconPath
+     * @param handle  handle of segmentor
+     * @return
+     */
+    public final static native void createSegmentor(String path, String lexiconPath, long[] handle);
+
+
+    /**
+     * release segmentor
+     * @param handle
+     * @return
+     */
+    public final static native int releaseSegmentor(long handle);
+
+
+    /**
+     * segment
+     * @param handle
+     * @param line
+     * @return
+     */
+    public final static native String[] segment(long handle, String line);
 }

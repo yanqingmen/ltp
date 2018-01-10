@@ -1,8 +1,8 @@
-#include "ltp/ner_dll.h"
-#include "ltp/segment_dll.h"
-#include "ltp/srl_dll.h"
-#include "ltp/parser_dll.h"
-#include "ltp/postag_dll.h"
+#include "segmentor/segment_dll.h"
+#include "postagger/postag_dll.h"
+#include "parser.n/parser_dll.h"
+#include "ner/ner_dll.h"
+#include "srl/SRL_DLL.h"
 
 #include "ltp4j.h"
 
@@ -63,14 +63,14 @@ JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releaseSegmentor
 JNIEXPORT jobjectArray  JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_segment
   (JNIEnv *jenv, jclass jcls, jlong jhandle, jstring jtext) {
     SegmentorHandle handle = (SegmentorHandle) jhandle;
-    const char* text =  jenv->GetStringUTFChars(text, 0);
+    const char* text =  jenv->GetStringUTFChars(jtext, 0);
     std::string line(text);
     std::vector<std::string> words;
     int flag = segmentor_segment(handle, line, words);
     jobjectArray jwords = (jobjectArray) jenv->NewObjectArray(
             words.size(), jenv->FindClass("java/lang/String"), jenv->NewStringUTF(""));
     for(int i=0; i<words.size(); i++) {
-        env->SetObjectArrayElement(jwords, i, env->NewStringUTF(words[i].c_str()));
+        jenv->SetObjectArrayElement(jwords, i, jenv->NewStringUTF(words[i].c_str()));
     }
     
     return jwords;

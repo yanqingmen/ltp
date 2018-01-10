@@ -48,4 +48,41 @@ public class LtpJNI {
      * @return
      */
     public final static native String[] segment(long handle, String line);
+
+    /**
+     *
+     * @param path
+     * @param lexiconPath
+     * @param handle
+     */
+    public final static native void createPosTagger(String path, String lexiconPath, long[] handle);
+
+    /**
+     *
+     * @param handle
+     * @return
+     */
+    public final static native int releasePosTagger(long handle);
+
+    /**
+     *
+     * @param handle
+     * @param words
+     * @return
+     */
+    public final static native String[] postag(long handle, String[] words);
+
+    /**
+     *
+     * @param path
+     * @param handle
+     */
+    public final static native void createParser(String path, long[] handle);
+
+    /**
+     *
+     * @param handle
+     * @return
+     */
+    public final static native int releaseParser(long handle);
 }

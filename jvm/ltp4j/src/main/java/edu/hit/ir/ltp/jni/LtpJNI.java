@@ -85,4 +85,19 @@ public class LtpJNI {
      * @return
      */
     public final static native int releaseParser(long handle);
+
+    /**
+     *
+     * @param handle parser handle
+     * @param words words array
+     * @param postags pos array
+     * @param heads depRel heads handler
+     * @param depRels depRels handler
+     * @return
+     */
+    public final static native int parse(long handle,
+                                         String[] words,
+                                         String[] postags,
+                                         int[][] heads,
+                                         String[][] depRels);
 }

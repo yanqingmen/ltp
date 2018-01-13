@@ -31,6 +31,54 @@ JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releaseSegmentor
 JNIEXPORT jobjectArray JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_segment
   (JNIEnv *, jclass, jlong, jstring);
 
+/*
+ * Class:     edu_hit_ir_ltp_jni_LtpJNI
+ * Method:    createPosTagger
+ * Signature: (Ljava/lang/String;Ljava/lang/String;[J)V
+ */
+JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createPosTagger
+  (JNIEnv *, jclass, jstring, jstring, jlongArray);
+
+/*
+ * Class:     edu_hit_ir_ltp_jni_LtpJNI
+ * Method:    releasePosTagger
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releasePosTagger
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     edu_hit_ir_ltp_jni_LtpJNI
+ * Method:    postag
+ * Signature: (J[Ljava/lang/String;)[Ljava/lang/String;
+ */
+JNIEXPORT jobjectArray JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_postag
+  (JNIEnv *, jclass, jlong, jobjectArray);
+
+/*
+ * Class:     edu_hit_ir_ltp_jni_LtpJNI
+ * Method:    createParser
+ * Signature: (Ljava/lang/String;[J)V
+ */
+JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createParser
+  (JNIEnv *, jclass, jstring, jlongArray);
+
+/*
+ * Class:     edu_hit_ir_ltp_jni_LtpJNI
+ * Method:    releaseParser
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releaseParser
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     edu_hit_ir_ltp_jni_LtpJNI
+ * Method:    parse
+ * Signature: (J[Ljava/lang/String;[Ljava/lang/String;[[I[[Ljava/lang/String;)I
+ */
+JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_parse
+  (JNIEnv *, jclass, jlong, jobjectArray, jobjectArray, jobjectArray, jobjectArray);
+
 #ifdef __cplusplus
 }
 #endif

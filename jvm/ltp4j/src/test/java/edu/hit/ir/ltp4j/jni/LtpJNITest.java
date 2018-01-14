@@ -1,4 +1,4 @@
-package edu.hit.ir.ltp.jni;
+package edu.hit.ir.ltp4j.jni;
 
 
 import java.util.Arrays;
@@ -38,11 +38,17 @@ public class LtpJNITest {
         LtpJNI.releaseSegmentor(handle[0]);
 
 
-//        String[] tags = LtpJNI.postag(posHandle[0], words);
-//        System.out.println(Arrays.toString(tags));
+        String[] tags = LtpJNI.postag(posHandle[0], words);
+        System.out.println(Arrays.toString(tags));
         // release postagger
         LtpJNI.releasePosTagger(posHandle[0]);
 
+
+        int[][] heads = new int[1][];
+        String[][] depRels = new String[1][];
+        LtpJNI.parse(parserHandle[0], words, tags, heads, depRels);
+        System.out.println(Arrays.toString(heads[0]));
+        System.out.println(Arrays.toString(depRels[0]));
         // release parser
         LtpJNI.releaseParser(parserHandle[0]);
     }

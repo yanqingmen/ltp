@@ -6,6 +6,8 @@
 
 #include "ltp4j.h"
 
+#include<stdio.h>
+
 // handles
 // segmentor handle
 typedef void *SegmentorHandle;
@@ -31,7 +33,7 @@ void set_string_vector(JNIEnv *jenv, jobjectArray jstring_array,  std::vector<st
     for(int i=0; i<jlen; i++) {
         jstring jitem = (jstring) jenv->GetObjectArrayElement(jstring_array, i);
         const char *item = jenv->GetStringUTFChars(jitem, 0);
-        string_vector.push_back(std::string(item, jenv->GetStringLength(jitem)));
+        string_vector.push_back(std::string(item));
         if (item != NULL) jenv->ReleaseStringUTFChars(jitem, item);
     }
 }
@@ -69,7 +71,7 @@ jintArray get_jint_array(JNIEnv *jenv, std::vector<int> int_vector) {
  * Method:    createSegmentor
  * Signature: (Ljava/lang/String;Ljava/lang/String;[J)V
  */
-JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createSegmentor
+JNIEXPORT void JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_createSegmentor
   (JNIEnv  *jenv, jclass jcls, jstring  jmodel_path, jstring jlexicon_path , jlongArray jhandle) {
     SegmentorHandle result;
     const char* model_path = jenv->GetStringUTFChars(jmodel_path, 0);
@@ -87,7 +89,7 @@ JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createSegmentor
  * Method:    releaseSegmentor
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releaseSegmentor
+JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_releaseSegmentor
   (JNIEnv *jenv, jclass jcls, jlong jhandle) {
     SegmentorHandle handle = (SegmentorHandle) jhandle;
     return segmentor_release_segmentor(handle);
@@ -98,7 +100,7 @@ JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releaseSegmentor
  * Method:    segment
  * Signature: (JLjava/lang/String;)Ljava/util/List;
  */
-JNIEXPORT jobjectArray  JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_segment
+JNIEXPORT jobjectArray  JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_segment
   (JNIEnv *jenv, jclass jcls, jlong jhandle, jstring jtext) {
     SegmentorHandle handle = (SegmentorHandle) jhandle;
     const char* text =  jenv->GetStringUTFChars(jtext, 0);
@@ -119,7 +121,7 @@ JNIEXPORT jobjectArray  JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_segment
  * Method:    createPosTagger
  * Signature: (Ljava/lang/String;Ljava/lang/String;[J)V
  */
-JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createPosTagger
+JNIEXPORT void JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_createPosTagger
   (JNIEnv *jenv, jclass jcls, jstring jmodel_path, jstring jlexicon_path, jlongArray jhandle) {
     PosTaggerHandle handle;
     const char* model_path = jenv->GetStringUTFChars(jmodel_path, 0);
@@ -137,7 +139,7 @@ JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createPosTagger
  * Method:    releasePosTagger
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releasePosTagger
+JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_releasePosTagger
   (JNIEnv *jenv, jclass jcls, jlong jhandle) {
     PosTaggerHandle handle = (PosTaggerHandle) jhandle;
     return postagger_release_postagger(handle);
@@ -148,13 +150,14 @@ JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releasePosTagger
  * Method:    postag
  * Signature: (J[Ljava/lang/String;)[Ljava/lang/String;
  */
-JNIEXPORT jobjectArray JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_postag
+JNIEXPORT jobjectArray JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_postag
   (JNIEnv *jenv, jclass jcls, jlong jhandle, jobjectArray jwords_array) {
     PosTaggerHandle handle = (PosTaggerHandle) jhandle;
     
     std::vector<std::string> words;
     std::vector<std::string> tags;
-    set_string_vector(jenv, jwords_array, words);
+    set_string_vector(jenv, jwords_array, words);    
+    
     int flag = postagger_postag(handle, words, tags);
     jobjectArray jtags = (jobjectArray) jenv->NewObjectArray(
             tags.size(), jenv->FindClass("java/lang/String"), jenv->NewStringUTF(""));
@@ -170,7 +173,7 @@ JNIEXPORT jobjectArray JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_postag
  * Method:    createParser
  * Signature: (Ljava/lang/String;[J)V
  */
-JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createParser
+JNIEXPORT void JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_createParser
   (JNIEnv *jenv, jclass jcls, jstring jmodel_path, jlongArray jhandle) {
     ParserHandle handle;
     const char* model_path = jenv->GetStringUTFChars(jmodel_path, 0);
@@ -184,7 +187,7 @@ JNIEXPORT void JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_createParser
  * Method:    releaseParser
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releaseParser
+JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_releaseParser
   (JNIEnv *jenv, jclass jcls, jlong jhandle) {
    ParserHandle handle = (ParserHandle) jhandle;
    return parser_release_parser(handle);
@@ -195,7 +198,7 @@ JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_releaseParser
  * Method:    parse
  * Signature: (J[Ljava/lang/String;[Ljava/lang/String;[[I[[Ljava/lang/String;)I
  */
-JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp_jni_LtpJNI_parse
+JNIEXPORT jint JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_parse
   (JNIEnv *jenv, jclass jcls, jlong jhandle, jobjectArray jwords, jobjectArray jtags, jobjectArray jheads_handle, jobjectArray jdeprels_handle) {
     ParserHandle handle = (ParserHandle) jhandle;
     std::vector<std::string> words;

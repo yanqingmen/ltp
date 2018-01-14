@@ -1,9 +1,7 @@
-package edu.hit.ir.ltp.jni;
+package edu.hit.ir.ltp4j.jni;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import java.util.List;
 
 
 /**

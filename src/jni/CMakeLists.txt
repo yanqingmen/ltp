@@ -23,7 +23,7 @@ set(ltp4j_SRC ltp4j.cpp)
 add_library (ltp4j_shared_lib SHARED
     ${ltp4j_SRC})
 target_link_libraries (ltp4j_shared_lib segmentor_static_lib postagger_static_lib
-   ner_static_lib parser_static_lib srl_static_lib)
+   parser_static_lib)
 set_target_properties (ltp4j_shared_lib PROPERTIES
     VERSION     ${ltp4j_VERSION}
     OUTPUT_NAME ltp4j)

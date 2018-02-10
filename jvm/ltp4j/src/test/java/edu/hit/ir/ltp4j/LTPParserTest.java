@@ -14,9 +14,9 @@ import java.util.Arrays;
 */ 
 public class LTPParserTest {
     public static void main(String[] args) {
-        String segModelPath = "/home/hzx/workspace/ltp/ltp_data_v3.4.0/cws.model";
-        String posModelPath = "/home/hzx/workspace/ltp/ltp_data_v3.4.0/pos.model";
-        String parserModelPath = "/home/hzx/workspace/ltp/ltp_data_v3.4.0/parser.model";
+        String segModelPath = "E:\\data\\ltp_data_v3.4.0\\cws.model";
+        String posModelPath = "E:\\data\\ltp_data_v3.4.0\\pos.model";
+        String parserModelPath = "E:\\data\\ltp_data_v3.4.0\\parser.model";
 
         LTPSegmentor ltpSegmentor = LTPSegmentor.createSegmentor(segModelPath);
         LTPPosTagger ltpPosTagger = LTPPosTagger.createPosTagger(posModelPath);

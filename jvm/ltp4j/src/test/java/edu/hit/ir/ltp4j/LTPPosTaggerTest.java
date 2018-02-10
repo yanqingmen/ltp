@@ -12,10 +12,10 @@ import java.util.Arrays;
 */ 
 public class LTPPosTaggerTest {
     public static void main(String[] args) {
-        String segModelPath = "/home/hzx/workspace/ltp/ltp_data_v3.4.0/cws.model";
+        String segModelPath = "E:\\data\\ltp_data_v3.4.0\\cws.model";
         LTPSegmentor ltpSegmentor = LTPSegmentor.createSegmentor(segModelPath);
 
-        String posModelPath = "/home/hzx/workspace/ltp/ltp_data_v3.4.0/pos.model";
+        String posModelPath = "E:\\data\\ltp_data_v3.4.0\\pos.model";
         LTPPosTagger ltpPosTagger = LTPPosTagger.createPosTagger(posModelPath);
 
 

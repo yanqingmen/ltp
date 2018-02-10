@@ -1,8 +1,6 @@
 #include "segmentor/segment_dll.h"
 #include "postagger/postag_dll.h"
 #include "parser.n/parser_dll.h"
-#include "ner/ner_dll.h"
-#include "srl/SRL_DLL.h"
 
 #include "ltp4j.h"
 
@@ -60,8 +58,8 @@ jobjectArray get_jstring_array(JNIEnv *jenv, std::vector<std::string> string_vec
 
 jintArray get_jint_array(JNIEnv *jenv, std::vector<int> int_vector) {
     jintArray jint_array = jenv->NewIntArray(int_vector.size());
-    int* int_array = &int_vector[0];
-    jenv->SetIntArrayRegion(jint_array, 0, int_vector.size(), int_array);
+    const int* int_array = &int_vector[0];
+    jenv->SetIntArrayRegion(jint_array, 0, int_vector.size(), (const jint*) int_array);
     
     return jint_array;
 }

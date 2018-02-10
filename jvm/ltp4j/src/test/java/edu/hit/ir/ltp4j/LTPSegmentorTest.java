@@ -12,7 +12,7 @@ import java.util.Arrays;
 */ 
 public class LTPSegmentorTest {
     public static void main(String[] args) {
-        String modelPath = "/home/hzx/workspace/ltp/ltp_data_v3.4.0/cws.model";
+        String modelPath = "E:\\data\\ltp_data_v3.4.0\\cws.model";
         LTPSegmentor ltpSegmentor = LTPSegmentor.createSegmentor(modelPath);
 
         String testQuery = "明天是星期几？";

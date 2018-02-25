@@ -54,7 +54,7 @@ public class LTPPosTagger {
         dispose();
     }
 
-    public synchronized void dispose() {
+    private synchronized void dispose() {
         if (this.handle != 0L) {
             LtpJNI.releasePosTagger(this.handle);
             this.handle = 0;

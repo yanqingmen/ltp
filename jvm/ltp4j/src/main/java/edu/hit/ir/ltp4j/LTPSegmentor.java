@@ -59,7 +59,7 @@ public class LTPSegmentor {
         dispose();
     }
 
-    public synchronized void dispose() {
+    private synchronized void dispose() {
         if (this.handle != 0L) {
             LtpJNI.releaseSegmentor(this.handle);
             this.handle = 0;

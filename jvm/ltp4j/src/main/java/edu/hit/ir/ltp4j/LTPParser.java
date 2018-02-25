@@ -53,7 +53,7 @@ public class LTPParser {
         dispose();
     }
 
-    public synchronized void dispose() {
+    private synchronized void dispose() {
         if (this.handle != 0L) {
             LtpJNI.releaseParser(this.handle);
             this.handle = 0;

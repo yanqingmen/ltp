@@ -18,6 +18,16 @@ public:
     return true;
   }
 
+
+  bool loadFromBytes(const char* bytes) {
+      if (!ltp::depparser::NeuralNetworkParser::loadFromBytes(bytes)) {
+          return false;
+      }
+      setup_system();
+      build_feature_space();
+      return true;
+  }
+
   int parse(const std::vector<std::string> & words,
             const std::vector<std::string> & postags,
             std::vector<int> & heads,
@@ -48,6 +58,18 @@ void * parser_create_parser(const char * path) {
   }
   return reinterpret_cast<void *>(wrapper);
 }
+
+
+void * parser_create_parser_from_bytes(const char * bytes) {
+    __ltp_dll_parser_wrapper* wrapper = new __ltp_dll_parser_wrapper();
+
+    if (!wrapper->loadFromBytes(bytes)) {
+        delete wrapper;
+        return 0;
+    }
+    return reinterpret_cast<void *>(wrapper);
+}
+
 
 int parser_release_parser(void * parser) {
   if (!parser) {

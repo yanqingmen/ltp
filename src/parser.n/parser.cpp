@@ -1,4 +1,5 @@
 #include <fstream>
+#include <sstream>
 #include "parser.n/parser.h"
 #include "utils/logging.hpp"
 #include "utils/math/fast_binned.h"
@@ -401,6 +402,87 @@ void NeuralNetworkParser::save(const std::string& filename) {
     delete payload;
   }
 }
+
+
+bool NeuralNetworkParser::loadFromBytes(const char* bytes) {
+    std::stringstream stream(bytes);
+
+    if (!stream.good()) {
+        return false;
+    }
+    char chunk[128];
+    stream.read(chunk, 128);
+    if (strcmp(chunk, model_header.c_str())) {
+        return false;
+    }
+
+    stream.read(chunk, 128);
+    root = chunk;
+
+    stream.read(reinterpret_cast<char*>(&use_distance), sizeof(bool));
+    stream.read(reinterpret_cast<char*>(&use_valency), sizeof(bool));
+    stream.read(reinterpret_cast<char*>(&use_cluster), sizeof(bool));
+
+    /*W1.load(ifs);
+    W2.load(ifs);
+    E.load(ifs);
+    b1.load(ifs);
+    saved.load(ifs);*/
+
+    read_matrix(stream, W1);
+    read_matrix(stream, W2);
+    read_matrix(stream, E);
+    read_vector(stream, b1);
+    read_matrix(stream, saved);
+
+    forms_alphabet.load(stream);
+    postags_alphabet.load(stream);
+    deprels_alphabet.load(stream);
+
+    int* payload = NULL;
+    size_t now = 0;
+    now= read_uint(stream);
+    payload = new int[now];
+    stream.read(reinterpret_cast<char*>(payload), now*sizeof(int));
+    for (size_t i = 0; i < now; i += 2) {
+        precomputation_id_encoder[payload[i]] = payload[i+1];
+    }
+    delete [] payload;
+
+    if (use_cluster) {
+        cluster4_types_alphabet.load(stream);
+        cluster6_types_alphabet.load(stream);
+        cluster_types_alphabet.load(stream);
+
+        now= read_uint(stream);
+        payload = new int[now];
+        stream.read(reinterpret_cast<char*>(payload), now*sizeof(int));
+        for (size_t i = 0; i < now; i += 2) {
+            form_to_cluster4[payload[i]] = payload[i+1];
+        }
+        delete [] payload;
+
+        now= read_uint(stream);
+        payload = new int[now];
+        stream.read(reinterpret_cast<char*>(payload), now*sizeof(int));
+        for (size_t i = 0; i < now; i += 2) {
+            form_to_cluster6[payload[i]] = payload[i+1];
+        }
+        delete [] payload;
+
+        now= read_uint(stream);
+        payload = new int[now];
+        stream.read(reinterpret_cast<char*>(payload), now*sizeof(int));
+        for (size_t i = 0; i < now; i += 2) {
+            form_to_cluster[payload[i]] = payload[i+1];
+        }
+        delete [] payload;
+    }
+
+    classifier.canonical();
+    return true;
+}
+
 
 bool NeuralNetworkParser::load(const std::string& filename) {
   std::ifstream ifs(filename.c_str(), std::ifstream::binary);

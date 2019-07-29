@@ -77,6 +77,14 @@ public class LtpJNI {
      */
     public final static native void createParser(String path, long[] handle);
 
+
+    /**
+     *
+     * @param bytes
+     * @param handle
+     */
+    public final static native void createParserFromBytes(byte[] bytes, long[] handle);
+
     /**
      *
      * @param handle

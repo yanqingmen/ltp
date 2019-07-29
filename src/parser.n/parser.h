@@ -84,6 +84,8 @@ public:
 
   bool load(const std::string& filename);
 
+  bool loadFromBytes(const char* bytes);
+
   void save(const std::string& filename);
 
 protected:

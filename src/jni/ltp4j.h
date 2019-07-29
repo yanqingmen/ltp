@@ -65,6 +65,14 @@ JNIEXPORT void JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_createParser
 
 /*
  * Class:     edu_hit_ir_ltp4j_jni_LtpJNI
+ * Method:    createParserFromBytes
+ * Signature: ([B[J)V
+ */
+JNIEXPORT void JNICALL Java_edu_hit_ir_ltp4j_jni_LtpJNI_createParserFromBytes
+  (JNIEnv *, jclass, jbyteArray, jlongArray);
+
+/*
+ * Class:     edu_hit_ir_ltp4j_jni_LtpJNI
  * Method:    releaseParser
  * Signature: (J)I
  */
